@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
+using Object = UnityEngine.Object;
 
 namespace Events.Runtime
 {
@@ -17,7 +19,7 @@ namespace Events.Runtime
         
         private static Dictionary<Type, Delegate> _globalDelegates = new Dictionary<Type, Delegate>();
         private static Dictionary<Type, Dictionary<object, Delegate>> _instancedDelegates = new Dictionary<Type, Dictionary<object, Delegate>>();
-        
+
         static EventManager()
         {
             OnDebugLog?.Invoke("Initializing");
