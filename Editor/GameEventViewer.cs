@@ -6,8 +6,6 @@ namespace Events.Editor
 {
     public class GameEventViewer : EditorWindow
     {
-        private float _sidebarWidth = 200f;
-        private Vector2 _scrollPosSidebar = Vector2.zero;
         private Vector2 _scrollPosMainArea = Vector2.zero;
 
         private GUIContent _recordIcon;
@@ -25,39 +23,31 @@ namespace Events.Editor
         {
             _recordIcon = EditorGUIUtility.IconContent("Animation.Record");
             _notRecordingIcon = EditorGUIUtility.IconContent("blendSampler");
+            
+            //Update the UI every frame
+            EditorApplication.update += Repaint;
         }
 
         private void OnDisable()
         {
-            
+            EditorApplication.update -= Repaint;
         }
 
         private void OnGUI()
         {
-            EditorGUILayout.BeginHorizontal();
-            Sidebar();
+            EditorGUILayout.BeginVertical();
+            SearchBar();
             MainArea();
-            EditorGUILayout.EndHorizontal();
-        }
-
-        private void Sidebar()
-        {
-            EditorGUILayout.BeginVertical("box", GUILayout.Width(_sidebarWidth));
-            _scrollPosSidebar = EditorGUILayout.BeginScrollView(_scrollPosSidebar);
-            
-            EditorGUILayout.EndScrollView();
-            GUILayout.FlexibleSpace();
             EditorGUILayout.EndVertical();
         }
 
         private void MainArea()
         {
             EditorGUILayout.BeginVertical();
-            SearchBar();
             _scrollPosMainArea = EditorGUILayout.BeginScrollView(_scrollPosMainArea);
             foreach (var recordedEvent in GameEventRecorder.RecordedEvents)
             {
-                EventItem(recordedEvent);
+                DrawEventItem(recordedEvent);
             }
             EditorGUILayout.EndScrollView();
             GUILayout.FlexibleSpace();
@@ -79,7 +69,7 @@ namespace Events.Editor
                 }
             }
             GUILayout.FlexibleSpace();
-            GUILayout.Label($"Events: {GameEventRecorder.EventCount}/{GameEventRecorder.MaxEventCount}");
+            GUILayout.Label($"Events: {GameEventRecorder.EventCount.ToString()}/{GameEventRecorder.MaxEventCount.ToString()}");
             if (GUILayout.Button("Clear", EditorStyles.toolbarButton))
             {
                 GameEventRecorder.ClearCache();
@@ -87,11 +77,34 @@ namespace Events.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void EventItem(RecordedEvent recordedEvent)
+        private void DrawEventItem(RecordedEvent recordedEvent)
         {
+            EditorGUILayout.BeginVertical("box");
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(recordedEvent.DisplayName);
+            GUILayout.Label(recordedEvent.DisplayName, EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.Label($"{recordedEvent.ExecutionTime}s");
+            if (GUILayout.Button("", GUILayout.Width(24f)))
+            {
+                recordedEvent.expanded = !recordedEvent.expanded;
+            }
             EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label(recordedEvent.Type.FullName, EditorStyles.miniLabel);
+            EditorGUILayout.EndHorizontal();
+            if (recordedEvent.expanded)
+            {
+                GUILayout.Label("Values", EditorStyles.boldLabel);
+                foreach (var propertyValue in recordedEvent.PropertyValues)
+                {
+                    EditorGUILayout.BeginHorizontal();
+                    GUILayout.Label(propertyValue.propertyName);
+                    GUILayout.FlexibleSpace();
+                    GUILayout.Label(propertyValue.propertyValue);
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+            EditorGUILayout.EndVertical();
         }
     }
 }
