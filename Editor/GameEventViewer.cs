@@ -95,12 +95,13 @@ namespace Events.Editor
             if (recordedEvent.expanded)
             {
                 GUILayout.Label("Values", EditorStyles.boldLabel);
+                var width = (position.width / 3f) - 10f;
                 foreach (var propertyValue in recordedEvent.PropertyValues)
                 {
                     EditorGUILayout.BeginHorizontal();
-                    GUILayout.Label(propertyValue.propertyName);
-                    GUILayout.FlexibleSpace();
-                    GUILayout.Label(propertyValue.propertyValue);
+                    GUILayout.Label(propertyValue.propertyName, GUILayout.Width(width));
+                    GUILayout.Label(propertyValue.propertyType.Name, GUILayout.Width(width));
+                    GUILayout.Label(propertyValue.propertyValue, GUILayout.Width(width));
                     EditorGUILayout.EndHorizontal();
                 }
             }

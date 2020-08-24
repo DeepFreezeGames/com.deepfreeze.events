@@ -27,7 +27,7 @@ namespace Events.Editor
             var properties = Type.GetProperties();
             foreach (var property in properties)
             {
-                PropertyValues.Add(new PropertyValue(property.Name, property.GetValue(triggeredEvent).ToString()));
+                PropertyValues.Add(new PropertyValue(property.Name, property.PropertyType, property.GetValue(triggeredEvent).ToString()));
             }
         }
         
@@ -35,13 +35,15 @@ namespace Events.Editor
         public class PropertyValue
         {
             public string propertyName;
+            public Type propertyType;
             public string propertyValue;
     
             private PropertyValue() { }
     
-            public PropertyValue(string name, string value)
+            public PropertyValue(string name, Type type, string value)
             {
                 propertyName = name;
+                propertyType = type;
                 propertyValue = value;
             }
         }
