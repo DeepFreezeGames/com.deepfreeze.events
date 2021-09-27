@@ -140,16 +140,6 @@ namespace Events.Runtime
             OnEventTriggered?.Invoke(eventInvoker.EventObject);
         }
 
-        internal static void Log(string message)
-        {
-            OnDebugLog?.Invoke($"<b>EVENT MANAGER: </b>{message}");
-        }
-
-        internal static void LogError(string error)
-        {
-            OnDebugLogError?.Invoke($"<b>EVENT MANAGER: </b>{error}");
-        }
-
         internal static void LogException(Exception exception)
         {
             OnDebugLogException?.Invoke(exception);

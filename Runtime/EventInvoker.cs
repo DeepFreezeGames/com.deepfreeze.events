@@ -20,51 +20,38 @@ namespace Events.Runtime
         public void Fire(Dictionary<Type, Delegate> delegates)
         {
             var dispatchAs = EventObject.DispatchAs;
-            var length = dispatchAs.Length;	
-            for (var i = 0; i < length; ++i)
+            if (!delegates.TryGetValue(dispatchAs, out var dispatches) || dispatches == null)
             {
-                var key = dispatchAs[i];
-
-                if (!delegates.TryGetValue(key, out var dispatches) || dispatches == null)
-                {
-                    continue;
-                }
+                return;
+            }
                 
-                try
-                {
-                    (dispatches as EventHandler<T>)?.Invoke(_eventObject);
-                }
-                catch (Exception exception)
-                {
-                    EventManager.LogException(exception);
-                    Debug.LogException(exception);
-                }
+            try
+            {
+                (dispatches as EventHandler<T>)?.Invoke(_eventObject);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                EventManager.LogException(exception);
             }
         }
 
         public void Fire(Dictionary<Type, Dictionary<object, Delegate>> delegates)
         {
-            var dispatchAs = EventObject.DispatchAs;
-            var length = EventObject.DispatchAs.Length;
-            for (var i = 0; i < length; ++i)
+            if (!delegates.TryGetValue(EventObject.DispatchAs, out var objectPairs) ||
+                !objectPairs.TryGetValue(Instance, out var dispatches) || dispatches == null)
             {
-                var key = dispatchAs[i];
-
-                if (!delegates.TryGetValue(key, out var objectPairs) ||
-                    !objectPairs.TryGetValue(Instance, out var dispatches) || dispatches == null)
-                {
-                    continue;
-                }
+                return;
+            }
                 
-                try
-                {
-                    (dispatches as EventHandler<T>)?.Invoke(_eventObject);
-                }
-                catch (Exception exception)
-                {
-                    EventManager.LogException(exception);
-                    Debug.LogException(exception);
-                }
+            try
+            {
+                (dispatches as EventHandler<T>)?.Invoke(_eventObject);
+            }
+            catch (Exception exception)
+            {
+                Debug.LogException(exception);
+                EventManager.LogException(exception);
             }
         }
     }
