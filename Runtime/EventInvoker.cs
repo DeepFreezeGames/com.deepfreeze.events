@@ -19,7 +19,7 @@ namespace Events.Runtime
 
         public void Fire(Dictionary<Type, Delegate> delegates)
         {
-            var dispatchAs = EventObject.DispatchAs;
+            var dispatchAs = EventObject.GetType();
             if (!delegates.TryGetValue(dispatchAs, out var dispatches) || dispatches == null)
             {
                 return;
@@ -38,7 +38,7 @@ namespace Events.Runtime
 
         public void Fire(Dictionary<Type, Dictionary<object, Delegate>> delegates)
         {
-            if (!delegates.TryGetValue(EventObject.DispatchAs, out var objectPairs) ||
+            if (!delegates.TryGetValue(EventObject.GetType(), out var objectPairs) ||
                 !objectPairs.TryGetValue(Instance, out var dispatches) || dispatches == null)
             {
                 return;
