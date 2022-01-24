@@ -11,6 +11,7 @@ namespace Events.Editor
     {
         private const int MaxEventCountLimit = 200;
         private const string IsRecordingPrefsKey = "GameEventViewer_IsRecording";
+        private const string RecordingMenuTitle = "Window/General/Events/Record Events";
         public static bool IsRecording { get; private set; }
 
         private static readonly List<RecordedEvent> _recordedEvents;
@@ -21,15 +22,30 @@ namespace Events.Editor
 
         static GameEventRecorder()
         {
-            IsRecording = EditorPrefs.GetBool(IsRecordingPrefsKey, true);
+            IsRecording = EditorPrefs.GetBool(IsRecordingPrefsKey, false);
+            Menu.SetChecked(RecordingMenuTitle, IsRecording);
             _recordedEvents = new List<RecordedEvent>();
             EditorApplication.playModeStateChanged += HandlePlayModeChange;
+        }
+
+        [MenuItem(RecordingMenuTitle)]
+        public static void ToggleRecording()
+        {
+            if (IsRecording)
+            {
+                StopRecorder();
+            }
+            else
+            {
+                StartRecorder();
+            }
         }
         
         public static void StartRecorder()
         {
             IsRecording = true;
             EditorPrefs.SetBool(IsRecordingPrefsKey, true);
+            Menu.SetChecked(RecordingMenuTitle, IsRecording);
             if (EditorApplication.isPlaying)
             {
                 StartRecording();
@@ -46,6 +62,7 @@ namespace Events.Editor
         {
             IsRecording = false;
             EditorPrefs.SetBool(IsRecordingPrefsKey, false);
+            Menu.SetChecked(RecordingMenuTitle, IsRecording);
             if (EditorApplication.isPlaying)
             {
                 StopRecording();

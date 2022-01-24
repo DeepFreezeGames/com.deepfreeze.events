@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 namespace Events.Editor
@@ -11,7 +10,7 @@ namespace Events.Editor
         private GUIContent _recordIcon;
         private GUIContent _notRecordingIcon;
 
-        [MenuItem("Window/General/Game Events")]
+        [MenuItem("Window/General/Events/Game Events")]
         public static void Initialize()
         {
             var window = GetWindow<GameEventViewer>();
@@ -36,21 +35,28 @@ namespace Events.Editor
         private void OnGUI()
         {
             EditorGUILayout.BeginVertical();
-            SearchBar();
-            MainArea();
+            {
+                SearchBar();
+                MainArea();
+            }
             EditorGUILayout.EndVertical();
         }
 
         private void MainArea()
         {
             EditorGUILayout.BeginVertical();
-            _scrollPosMainArea = EditorGUILayout.BeginScrollView(_scrollPosMainArea);
-            foreach (var recordedEvent in GameEventRecorder.RecordedEvents)
             {
-                DrawEventItem(recordedEvent);
+                _scrollPosMainArea = EditorGUILayout.BeginScrollView(_scrollPosMainArea);
+                {
+                    foreach (var recordedEvent in GameEventRecorder.RecordedEvents)
+                    {
+                        DrawEventItem(recordedEvent);
+                    }
+                }
+                EditorGUILayout.EndScrollView();
+                
+                GUILayout.FlexibleSpace();
             }
-            EditorGUILayout.EndScrollView();
-            GUILayout.FlexibleSpace();
             EditorGUILayout.EndVertical();
         }
 
@@ -80,29 +86,38 @@ namespace Events.Editor
         private void DrawEventItem(RecordedEvent recordedEvent)
         {
             EditorGUILayout.BeginVertical("box");
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(recordedEvent.DisplayName, EditorStyles.boldLabel);
-            GUILayout.FlexibleSpace();
-            GUILayout.Label($"{recordedEvent.ExecutionTime}s");
-            if (GUILayout.Button("", GUILayout.Width(24f)))
             {
-                recordedEvent.expanded = !recordedEvent.expanded;
-            }
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(recordedEvent.Type.FullName, EditorStyles.miniLabel);
-            EditorGUILayout.EndHorizontal();
-            if (recordedEvent.expanded)
-            {
-                GUILayout.Label("Values", EditorStyles.boldLabel);
-                var width = (position.width / 3f) - 10f;
-                foreach (var propertyValue in recordedEvent.PropertyValues)
+                EditorGUILayout.BeginHorizontal();
                 {
-                    EditorGUILayout.BeginHorizontal();
-                    GUILayout.Label(propertyValue.propertyName, GUILayout.Width(width));
-                    GUILayout.Label(propertyValue.propertyType.Name, GUILayout.Width(width));
-                    GUILayout.Label(propertyValue.propertyValue, GUILayout.Width(width));
-                    EditorGUILayout.EndHorizontal();
+                    GUILayout.Label(recordedEvent.DisplayName, EditorStyles.boldLabel);
+                    GUILayout.FlexibleSpace();
+                    GUILayout.Label($"{recordedEvent.ExecutionTime}s");
+                    if (GUILayout.Button("", GUILayout.Width(24f)))
+                    {
+                        recordedEvent.expanded = !recordedEvent.expanded;
+                    }
+                }
+                EditorGUILayout.EndHorizontal();
+                
+                EditorGUILayout.BeginHorizontal();
+                {
+                    GUILayout.Label(recordedEvent.Type.FullName, EditorStyles.miniLabel);
+                    GUILayout.FlexibleSpace();
+                }
+                EditorGUILayout.EndHorizontal();
+                
+                if (recordedEvent.expanded)
+                {
+                    GUILayout.Label("Values", EditorStyles.boldLabel);
+                    var width = (position.width / 3f) - 10f;
+                    foreach (var propertyValue in recordedEvent.PropertyValues)
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        GUILayout.Label(propertyValue.propertyName, GUILayout.Width(width));
+                        GUILayout.Label(propertyValue.PropertyType.Name, GUILayout.Width(width));
+                        GUILayout.Label(propertyValue.propertyValue, GUILayout.Width(width));
+                        EditorGUILayout.EndHorizontal();
+                    }
                 }
             }
             EditorGUILayout.EndVertical();
