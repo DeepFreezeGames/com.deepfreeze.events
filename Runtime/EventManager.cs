@@ -1,8 +1,6 @@
 ﻿#define DEEPFREEZE_EVENTS
-
 using System;
 using System.Collections.Generic;
-using UnityEngine.Events;
 
 namespace Events.Runtime
 {
@@ -11,19 +9,9 @@ namespace Events.Runtime
     public static class EventManager
     {
         public static Action<IEvent> OnEventTriggered;
-        public static Action<string> OnDebugLog;
-        public static Action<string> OnDebugLogError;
-        public static Action<Exception> OnDebugLogException;
 
-        private static Dictionary<IEvent, UnityEvent> _events;
-        
         private static Dictionary<Type, Delegate> _globalDelegates = new Dictionary<Type, Delegate>();
         private static Dictionary<Type, Dictionary<object, Delegate>> _instancedDelegates = new Dictionary<Type, Dictionary<object, Delegate>>();
-
-        static EventManager()
-        {
-            OnDebugLog?.Invoke("Initializing");
-        }
 
         public static void ClearAllEvents()
         {
@@ -98,6 +86,19 @@ namespace Events.Runtime
             }
         }
 
+        /// <summary>
+        /// Returns all of the currently registered listeners for the given <see cref="IEvent"/> type
+        /// </summary>
+        public static List<Delegate> GetGlobalListeners<T>() where T : class, IEvent
+        {
+            if (_globalDelegates.TryGetValue(typeof(T), out var del))
+            {
+                del.
+            }
+
+            return null;
+        }
+
         private static void RemoveGlobal<T>(Type key, EventHandler<T> listener) where T : class, IEvent
         {
             if (_globalDelegates.ContainsKey(key))
@@ -124,6 +125,8 @@ namespace Events.Runtime
                 _instancedDelegates[key].Add(instance, listener);
             }
         }
+        
+        
 
         private static void RemoveInstanced<T>(Type key, EventHandler<T> listener, object instance)
             where T : class, IEvent
@@ -138,11 +141,6 @@ namespace Events.Runtime
         private static void LogEvent(IEventInvoker eventInvoker)
         {
             OnEventTriggered?.Invoke(eventInvoker.EventObject);
-        }
-
-        internal static void LogException(Exception exception)
-        {
-            OnDebugLogException?.Invoke(exception);
         }
     }
 }

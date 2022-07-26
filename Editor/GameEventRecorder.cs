@@ -14,8 +14,7 @@ namespace Events.Editor
         private const string RecordingMenuTitle = "Window/General/Events/Record Events";
         public static bool IsRecording { get; private set; }
 
-        private static readonly List<RecordedEvent> _recordedEvents;
-        public static List<RecordedEvent> RecordedEvents => _recordedEvents;
+        public static List<RecordedEvent> RecordedEvents { get; private set; } = new();
 
         public static int EventCount => RecordedEvents.Count;
         public static int MaxEventCount => MaxEventCountLimit;
@@ -24,7 +23,6 @@ namespace Events.Editor
         {
             IsRecording = EditorPrefs.GetBool(IsRecordingPrefsKey, false);
             Menu.SetChecked(RecordingMenuTitle, IsRecording);
-            _recordedEvents = new List<RecordedEvent>();
             EditorApplication.playModeStateChanged += HandlePlayModeChange;
         }
 
@@ -102,18 +100,18 @@ namespace Events.Editor
 
         public static void ClearCache()
         {
-            _recordedEvents.Clear();
+            RecordedEvents.Clear();
             Debug.Log("Cleared message cache");
         }
 
         private static void LogEvent(IEvent triggeredEvent)
         {
-            if (_recordedEvents.Count > MaxEventCount)
+            if (RecordedEvents.Count > MaxEventCount)
             {
-                _recordedEvents.RemoveAt(0);
+                RecordedEvents.RemoveAt(0);
             }
             
-            _recordedEvents.Add(new RecordedEvent(triggeredEvent));
+            RecordedEvents.Add(new RecordedEvent(triggeredEvent));
         }
     }
 }

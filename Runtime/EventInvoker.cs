@@ -32,7 +32,6 @@ namespace Events.Runtime
             catch (Exception exception)
             {
                 Debug.LogException(exception);
-                EventManager.LogException(exception);
             }
         }
 
@@ -51,7 +50,6 @@ namespace Events.Runtime
             catch (Exception exception)
             {
                 Debug.LogException(exception);
-                EventManager.LogException(exception);
             }
         }
     }
