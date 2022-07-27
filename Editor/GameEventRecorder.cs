@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Events.Runtime;
+using DeepFreeze.Packages.Events.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace Events.Editor
+namespace DeepFreeze.Packages.Events.Editor
 {
     [InitializeOnLoad]
     public static class GameEventRecorder

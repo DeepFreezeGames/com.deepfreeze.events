@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Events.Runtime
+namespace DeepFreeze.Packages.Events.Runtime
 {
     public interface IEvent
     {

@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Events.Editor
+namespace DeepFreeze.Packages.Events.Editor
 {
     public class GameEventViewer : EditorWindow
     {
