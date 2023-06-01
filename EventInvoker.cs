@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Events.Runtime
+namespace DeepFreeze.Events
 {
     public class EventInvoker<T> : IEventInvoker where T : class, IEvent
     {

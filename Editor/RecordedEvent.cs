@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Events.Runtime;
+using DeepFreeze.Events;
 using UnityEngine;
 
-namespace Events.Editor
+namespace DeepFreeze.Events.Editor
 {
     [Serializable]
     public class RecordedEvent

@@ -1,0 +1,18 @@
+{
+    "name": "DeepFreeze.Events.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:98ed260fb0499634f8ac6c90d5ce9c2a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
