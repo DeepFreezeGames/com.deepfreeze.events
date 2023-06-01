@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DeepFreeze.Packages.Events.Runtime
+namespace DeepFreeze.Events
 {
     public interface IEventInvoker
     {

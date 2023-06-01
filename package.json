@@ -1,9 +1,12 @@
 {
     "name": "com.deepfreeze.events",
     "displayName": "Events",
-    "author": {"name": "Deep Freeze Games", "url": "https://github.com/DeepFreezeGames"},
+    "author": {
+        "name": "Deep Freeze Games", 
+        "url": "https://github.com/DeepFreezeGames"
+    },
     "registry": "https://github.com/DeepFreezeGames/com.deepfreeze.events.git",
-    "version": "2.0.3",
+    "version": "2.1.0",
     "unity": "2018.1",
     "description": "A unity package manager that contains a simple event manager to create/schedule/fire events",
     "keywords": [

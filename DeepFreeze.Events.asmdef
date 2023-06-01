@@ -1,5 +1,5 @@
 {
-    "name": "DeepFreeze.Packages.Events.Runtime",
+    "name": "DeepFreeze.Events",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],

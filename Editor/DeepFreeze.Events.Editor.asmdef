@@ -1,8 +1,8 @@
 {
-    "name": "DeepFreeze.Packages.Events.Editor",
+    "name": "DeepFreeze.Events.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:a6319fc87f348f046a1c46db5d3253c9"
+        "GUID:98ed260fb0499634f8ac6c90d5ce9c2a"
     ],
     "includePlatforms": [
         "Editor"

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 
-namespace DeepFreeze.Packages.Events.Runtime
+namespace DeepFreeze.Events
 {
     public delegate void EventHandler<in T>(T eventTrigger) where T : class, IEvent;
     
